@@ -27,4 +27,25 @@ RSpec.describe ModuleBuilder::Builder do
     expect(quacker).to respond_to(:quack)
     expect(quacker.quack).to eq("quack")
   end
+
+  it "extends all modules listed for extension on the built module" do
+    Bark = Module.new do
+      def bark
+        "bark"
+      end
+    end
+
+    extending_builder = Class.new(ModuleBuilder::Builder) do
+      def extensions
+        [Bark]
+      end
+    end
+
+    barking_class = Class.new do
+      extend extending_builder.new.module
+    end
+
+    expect(barking_class).to respond_to(:bark)
+    expect(barking_class.bark).to eq("bark")
+  end
 end
