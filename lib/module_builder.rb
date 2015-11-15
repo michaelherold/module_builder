@@ -1,4 +1,2 @@
+require "module_builder/builder"
 require "module_builder/version"
-
-module ModuleBuilder
-end
