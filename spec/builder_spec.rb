@@ -74,4 +74,38 @@ RSpec.describe ModuleBuilder::Builder do
     expect(quacker).to respond_to(:quack!)
     expect(quacker.quack!).to eq("quack")
   end
+
+  it "allows for stateful hooks based on the state passed into the builder" do
+    Persisting = Module.new do
+      def persist
+        "persisting"
+      end
+    end
+
+    stateful_hook_builder = Class.new(ModuleBuilder::Builder) do
+      def hooks
+        [:rename_persist_method]
+      end
+
+      def inclusions
+        [Persisting]
+      end
+
+      def rename_persist_method
+        return if @persist_method == :persist
+
+        @module.__send__(:alias_method, @persist_method, :persist)
+        @module.__send__(:undef_method, :persist)
+      end
+    end
+
+    persisting_class = Class.new do
+      include stateful_hook_builder.new(:persist_method => :save).module
+    end
+
+    persister = persisting_class.new
+    expect(persister).to respond_to(:save)
+    expect(persister).not_to respond_to(:persist)
+    expect(persister.save).to eq("persisting")
+  end
 end

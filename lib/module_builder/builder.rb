@@ -13,11 +13,15 @@ module ModuleBuilder
     #   ModuleBuilder::Builder.new(base: Module.new)
     #
     # @param [Module] base the module to use as a base on which to build.
-    def initialize(base: Module.new)
+    def initialize(base: Module.new, **state)
       @module = base
 
+      state.each_pair do |attr, value|
+        instance_variable_set("@#{attr}", value)
+      end
+
       add_extended_hook
-      add_included_hook
+      add_inclusions
       add_defined_hooks
     end
 
@@ -44,14 +48,13 @@ module ModuleBuilder
       []
     end
 
-    # Lists the modules to be added into the Module#included hook
-    # of the built module.
+    # Lists the modules to be included into the built module.
     #
     # @note This can be overridden in a subclass to automatically
     #   include modules in the built module.
     #
-    # @return [Array<Module>] the modules to be included into any
-    #   modules that include the built module.
+    # @return [Array<Module>] the modules to be included into the built
+    #   module.
     def inclusions
       []
     end
@@ -78,17 +81,12 @@ module ModuleBuilder
       end
     end
 
-    # Adds the modules listed by the builder's {#inclusions} to the
-    # Module#included hook, for inclusion into any modules that
-    # include the build module.
+    # Includes the modules listed by the builder's {#inclusions} in the
+    # built module.
     #
     # @return [void]
-    def add_included_hook
-      within_context do |context|
-        @module.define_singleton_method :included do |object|
-          context.inclusions.each { |mod| object.__send__(:include, mod) }
-        end
-      end
+    def add_inclusions
+      inclusions.each { |mod| @module.__send__(:include, mod) }
     end
 
     # Gives access to the builder's context when dynamically defining
