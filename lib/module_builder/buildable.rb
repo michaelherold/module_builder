@@ -20,8 +20,14 @@ module ModuleBuilder
       private
 
       def builder_or_fail
-        return @builder if @builder
+        if @builder
+          @builder
+        else
+          default_builder
+        end
+      end
 
+      def default_builder
         const_get("Builder")
       rescue NameError
         raise ArgumentError, "No builder specified!"
