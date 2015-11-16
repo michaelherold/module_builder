@@ -79,6 +79,8 @@ RSpec.describe ModuleBuilder::Builder do
         @module.__send__(:alias_method, :quack!, :quack)
       end
 
+      private
+
       def add_quack_method
         @module.__send__(:define_method, :quack, -> { "quack" })
       end
