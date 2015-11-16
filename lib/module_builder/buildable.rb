@@ -1,0 +1,31 @@
+module ModuleBuilder
+  module Buildable
+    def self.included(base)
+      base.extend(ClassMethods)
+    end
+
+    module ClassMethods
+      def builder(builder_class = :not_set)
+        if builder_class == :not_set
+          builder_or_fail
+        else
+          @builder = builder_class
+        end
+      end
+
+      def new(**state)
+        builder.new(state).module
+      end
+
+      private
+
+      def builder_or_fail
+        return @builder if @builder
+
+        const_get("Builder")
+      rescue NameError
+        raise ArgumentError, "No builder specified!"
+      end
+    end
+  end
+end
