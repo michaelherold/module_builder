@@ -18,6 +18,7 @@ module ModuleBuilder
 
       add_extended_hook
       add_included_hook
+      add_defined_hooks
     end
 
     # Lists the modules to be added into the Module#extended hook
@@ -29,6 +30,17 @@ module ModuleBuilder
     # @return [Array<Module>] the modules to be extended onto any
     #   modules that extend the built module.
     def extensions
+      []
+    end
+
+    # Lists the methods that should be called when building a module.
+    #
+    # @note This can be overridden in a subclass with any methods that
+    #   should be called to build the built module.
+    #
+    # @return [Array<Symbol>] the methods to call when building the
+    #   module.
+    def hooks
       []
     end
 
@@ -45,6 +57,13 @@ module ModuleBuilder
     end
 
     private
+
+    # Performs every method listed in the builder's {#hooks}.
+    #
+    # @return [void]
+    def add_defined_hooks
+      hooks.each { |hook| __send__(hook) }
+    end
 
     # Adds the modules listed by the builder's {#extensions} to the
     # Module#extended hook, for extension onto any modules that

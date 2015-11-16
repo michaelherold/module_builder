@@ -48,4 +48,30 @@ RSpec.describe ModuleBuilder::Builder do
     expect(barking_class).to respond_to(:bark)
     expect(barking_class.bark).to eq("bark")
   end
+
+  it "calls any defined hooks" do
+    defined_hook_builder = Class.new(ModuleBuilder::Builder) do
+      def hooks
+        [:add_quack_method, :add_quack_bang_method]
+      end
+
+      def add_quack_bang_method
+        @module.__send__(:alias_method, :quack!, :quack)
+      end
+
+      def add_quack_method
+        @module.__send__(:define_method, :quack, -> { "quack" })
+      end
+    end
+
+    quacking_class = Class.new do
+      include defined_hook_builder.new.module
+    end
+
+    quacker = quacking_class.new
+    expect(quacker).to respond_to(:quack)
+    expect(quacker.quack).to eq("quack")
+    expect(quacker).to respond_to(:quack!)
+    expect(quacker.quack!).to eq("quack")
+  end
 end
