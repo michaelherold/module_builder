@@ -1,5 +1,3 @@
-require "module_builder/build_context"
-
 module ModuleBuilder
   class Builder
     # @!attribute [r] module
@@ -96,7 +94,7 @@ module ModuleBuilder
     #
     # @return [void]
     def within_context
-      yield BuildContext.new(self)
+      yield self
     end
   end
 end
