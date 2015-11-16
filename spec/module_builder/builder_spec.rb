@@ -6,6 +6,26 @@ RSpec.describe ModuleBuilder::Builder do
     expect(builder.module).to be_a_kind_of Module
   end
 
+  it "builds an includable module by default" do
+    builder = ModuleBuilder::Builder.new
+
+    class_with_built_module = Class.new do
+      include builder.module
+    end
+
+    expect { class_with_built_module.new }.not_to raise_error
+  end
+
+  it "builds an extendable module by default" do
+    builder = ModuleBuilder::Builder.new
+
+    class_with_built_module = Class.new do
+      extend builder.module
+    end
+
+    expect { class_with_built_module.new }.not_to raise_error
+  end
+
   it "includes all modules listed for inclusion in the built module" do
     Quack = Module.new do
       def quack
