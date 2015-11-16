@@ -30,7 +30,7 @@ module ModuleBuilder
       def default_builder
         const_get("Builder")
       rescue NameError
-        raise UnspecifiedBuilder, "No specifield or default builder"
+        raise ModuleBuilder::UnspecifiedBuilder, "No builder specified"
       end
     end
   end

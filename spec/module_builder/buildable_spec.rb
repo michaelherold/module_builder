@@ -52,4 +52,12 @@ RSpec.describe ModuleBuilder::Buildable do
     object = buildable_class.new
     expect(object).to respond_to(:laugh)
   end
+
+  it "raises an error when there is no builder specified" do
+    buildable = Module.new do
+      include ModuleBuilder::Buildable
+    end
+
+    expect { buildable.new }.to raise_error(ModuleBuilder::UnspecifiedBuilder)
+  end
 end
