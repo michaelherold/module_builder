@@ -29,7 +29,7 @@ RSpec.describe ModuleBuilder::Buildable do
   end
 
   it "defaults the builder to a nested Builder class in its namespace" do
-    buildable = Module.new do
+    module BuildableWithBuilder
       include ModuleBuilder::Buildable
 
       class Builder < ModuleBuilder::Builder
@@ -46,7 +46,7 @@ RSpec.describe ModuleBuilder::Buildable do
     end
 
     buildable_class = Class.new do
-      include buildable.new
+      include BuildableWithBuilder.new
     end
 
     object = buildable_class.new
@@ -54,10 +54,10 @@ RSpec.describe ModuleBuilder::Buildable do
   end
 
   it "raises an error when there is no builder specified" do
-    buildable = Module.new do
+    module NoBuilder
       include ModuleBuilder::Buildable
     end
 
-    expect { buildable.new }.to raise_error(ModuleBuilder::UnspecifiedBuilder)
+    expect { NoBuilder.new }.to raise_error(ModuleBuilder::UnspecifiedBuilder)
   end
 end
