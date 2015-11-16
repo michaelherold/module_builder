@@ -84,7 +84,7 @@ module ModuleBuilder
     #
     # @return [void]
     def add_inclusions
-      inclusions.each { |mod| @module.__send__(:include, mod) }
+      inclusions.each { |inclusion| @module.include(inclusion) }
     end
 
     # Gives access to the builder's context when dynamically defining
