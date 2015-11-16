@@ -8,6 +8,7 @@ group :development do
   gem "guard-inch"
   gem "guard-rspec", "~> 4.6"
   gem "guard-rubocop"
+  gem "guard-yard"
   gem "inch"
   gem "pry"
   gem "rubocop", "0.35.1"
