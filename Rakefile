@@ -17,7 +17,15 @@ require "yard/rake/yardoc_task"
 YARD::Rake::YardocTask.new(:yard)
 
 task :mutant do
-  system "bundle exec mutant --include lib --require module_builder --use rspec ModuleBuilder*"
+  command = [
+    "bundle exec mutant",
+    "--include lib",
+    "--require module_builder",
+    "--use rspec",
+    "ModuleBuilder*",
+  ].join(" ")
+
+  system command
 end
 
 task :default => [:spec, :rubocop, :yard, :inch]
