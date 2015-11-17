@@ -1,3 +1,6 @@
+require "codeclimate-test-reporter"
+CodeClimate::TestReporter.start
+
 if ENV["COVERAGE"] || ENV["CI"]
   require "simplecov"
 

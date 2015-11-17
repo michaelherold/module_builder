@@ -1,5 +1,7 @@
 # ModuleBuilder
 
+[![Code Climate](https://codeclimate.com/github/michaelherold/module_builder/badges/gpa.svg)](https://codeclimate.com/github/michaelherold/module_builder)
+
 ModuleBuilder gives you the ability to create modules that are customizable for
 different situations. Are you creating a module that has an adapter, but don't
 want to expose a setter on the including class because it's not a public API?
