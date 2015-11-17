@@ -12,6 +12,7 @@ group :development do
   gem "inch"
   gem "mutant-rspec"
   gem "pry"
+  gem "rake"
   gem "rubocop", "0.35.1"
   gem "yard", "~> 0.8"
 end
