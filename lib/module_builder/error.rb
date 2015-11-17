@@ -1,5 +1,8 @@
 module ModuleBuilder
-  Error = Class.new(StandardError)
+  # Represents any error that is expected to be raised by {ModuleBuilder}.
+  class Error < StandardError; end
 
-  UnspecifiedBuilder = Class.new(Error)
+  # Raised when a {ModuleBuilder::Buildable} module cannot find the
+  # {ModuleBuilder::Builder} to use when building itself.
+  class UnspecifiedBuilder < Error; end
 end
