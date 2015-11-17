@@ -5,6 +5,7 @@ rvm:
   - 2.1
   - 2.2
   - ruby-head
+script: bundle exec rspec
 sudo: false
 
 before_install: gem install bundler -v 1.10.6
