@@ -11,13 +11,17 @@ group :development do
   gem "guard-yard"
   gem "inch"
   gem "mutant-rspec"
-  gem "pry"
   gem "rake"
   gem "rubocop", "0.35.1"
   gem "yard", "~> 0.8"
 end
 
+group :development, :test do
+  gem "pry"
+end
+
 group :test do
+  gem "codeclimate-test-reporter", :require => false
   gem "rspec", "~> 3.4"
   gem "simplecov"
 end
