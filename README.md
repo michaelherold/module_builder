@@ -1,6 +1,13 @@
 # ModuleBuilder
 
-TODO: Describe the gem.
+ModuleBuilder gives you the ability to create modules that are customizable for
+different situations. Are you creating a module that has an adapter, but don't
+want to expose a setter on the including class because it's not a public API?
+ModuleBuilder can help with that! Do you have two implementations of some
+behavior that have different tradeoffs? Do you want to offer both through one
+easy-to-use syntax? ModuleBuilder can do that too!
+
+Come see what ModuleBuilder will help you with today!
 
 ## Installation
 
@@ -20,7 +27,144 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+ModuleBuilder revolves around the concept of Builders that are responsible for
+building modules based on your specification. For convenience, there is a
+`Buildable` module that you can mix in to give your module building
+superpowers.
+
+You configure Builders through two channels: class-level configuration and
+instance-level state. There are three types of class-level configuration:
+stateless inclusions, stateless extensions, and defined hooks.
+
+Stateless methods do not give much more power than just using a standard set of
+`include`s and `extend`s. However, they help you organize your code in an
+easily extensible fashion.
+
+You can use instance-level state within defined hooks to customize the behavior
+of the built module. If you need to conditionally define a method based on the
+configuration, you want to look here.
+
+### Stateless Inclusions
+
+The builder simply `include`s stateless inclusions into the built module. There
+are no customization hooks here, just a single place to specify all the modules
+you want to `include` in your built module.
+
+```ruby
+class StatelessInclusionBuilder < ModuleBuilder::Builder
+  def inclusions
+    [Comparable, Enumerable]
+  end
+end
+
+StatelessInclusionBuilder.new.module.ancestors
+#=> [#<Module>, Enumerable, Comparable]
+```
+
+### Stateless Extensions
+
+The builder adds all stateless extensions into the `Module#extended` hook of
+the built module so they are extended onto anything that extends the built
+module.
+
+```ruby
+module Quack
+  def quack
+    "quack"
+  end
+end
+
+class QuackingBuilder < ModuleBuilder::Builder
+  def extensions
+    [Quack]
+  end
+end
+
+class Duck
+  extend QuackingBuilder.new.module
+end
+
+Duck.quack #=> "quack"
+```
+
+### Defined Hooks
+
+Defined hooks are where you can do the heavy customization when building a
+module. They are arbitrary methods that the builder invokes during its
+initialization. Add any behavior that you want to make customizable via the
+state that you give to the builder as a defined hook.
+
+```ruby
+module Walk
+  def walk
+    "step, step, step"
+  end
+end
+
+class WalkingBuilder < ModuleBuilder::Builder
+  def hooks
+    [:rename_walk]
+  end
+
+  def inclusions
+    [Walk]
+  end
+
+  private
+
+  def rename_walk
+    return unless @walk_method
+
+    @module.__send__(:alias_method, @walk_method, :walk)
+    @module.__send__(:undef_method, :walk)
+  end
+end
+
+class Duck
+  include WalkingBuilder.new(:walk_method => :waddle).module
+end
+
+Duck.new.waddle  #=> "step, step, step"
+Duck.new.walk    #=> NoMethodError
+```
+
+### Buildable Module
+
+Explicitly instantiating a Builder and accessing the module that it built is
+clunky. To gain easy access to a consistent syntax for your module, you can
+include the `Buildable` module and specify the builder you want to use when
+building your module.
+
+```ruby
+class MyBuilder < ModuleBuilder::Builder
+end
+
+module BuildableExample
+  include ModuleBuilder::Buildable
+
+  builder MyBuilder
+end
+
+module IncludingModule
+  include BuildableExample.new(:state => "value")
+end
+```
+
+`Buildable` defaults to using a `Builder` defined within the current module.
+You can rely on that instead of using the DSL for specifying the builder.
+
+```ruby
+module OtherBuildableExample
+  include ModuleBuilder::Buildable
+
+  class Builder < ModuleBuilder::Builder
+  end
+end
+
+module OtherIncludingModule
+  include OtherBuildableExample.new(:my_config_value => "awesome")
+end
+```
 
 ## Development
 
@@ -61,4 +205,3 @@ adhere to the [Contributor Covenant][covenant] code of conduct.
 The gem is available as open source under the terms of the [MIT License][license].
 
 [license]: http://opensource.org/licenses/MIT.
-
