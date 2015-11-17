@@ -35,7 +35,7 @@ module ModuleBuilder
       # @raise [ModuleBuilder::UnspecifiedBuilder] if the builder is not found.
       # @return [Class] the builder class.
       def builder(builder_class = :not_set)
-        if builder_class == :not_set
+        if builder_class.equal?(:not_set)
           builder_or_fail
         else
           @builder = builder_class
