@@ -32,8 +32,8 @@ module ModuleBuilder
       #
       # @param [Class] builder_class the class to instantiate when building the
       #   module.
-      # @raise [ModuleBuilder::UnspecifiedBuilder]
-      # @return [Class]
+      # @raise [ModuleBuilder::UnspecifiedBuilder] if the builder is not found.
+      # @return [Class] the builder class.
       def builder(builder_class = :not_set)
         if builder_class == :not_set
           builder_or_fail
@@ -42,18 +42,33 @@ module ModuleBuilder
         end
       end
 
-      # Returns a module newly built by the builder class using the given state.
+      # Builds a module with the configured builder class using the given
+      # state.
+      #
+      # @example
+      #   module MyBuildableModule
+      #     include ModuleBuilder::Buildable
+      #
+      #     class Builder < ModuleBuilder::Builder
+      #     end
+      #   end
+      #
+      #   class MyClass
+      #     include MyBuildableModule.new(:example => "value")
+      #   end
       #
       # @param [Hash] state the state to use when configuring the builder.
-      # @return [Module]
+      # @return [Module] the newly built module.
       def new(**state)
         builder.new(state).module
       end
 
       private
 
-      # @raise [ModuleBuilder::UnspecifiedBuilder]
-      # @return [Class]
+      # Fetches the configured or default builder class for the module.
+      #
+      # @raise [ModuleBuilder::UnspecifiedBuilder] if the builder is not found.
+      # @return [Class] the builder class.
       def builder_or_fail
         if @builder
           @builder
@@ -62,8 +77,11 @@ module ModuleBuilder
         end
       end
 
-      # @raise [ModuleBuilder::UnspecifiedBuilder]
-      # @return [Class]
+      # Fetches the default builder for the module.
+      #
+      # @raise [ModuleBuilder::UnspecifiedBuilder] if there is no default
+      #   Builder within the module.
+      # @return [Class] the default builder class.
       def default_builder
         const_get("Builder")
       rescue NameError
