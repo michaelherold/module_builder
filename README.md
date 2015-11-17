@@ -1,5 +1,6 @@
 # ModuleBuilder
 
+[![Build Status](https://travis-ci.org/michaelherold/module_builder.svg)](https://travis-ci.org/michaelherold/module_builder?branch=master)
 [![Code Climate](https://codeclimate.com/github/michaelherold/module_builder/badges/gpa.svg)](https://codeclimate.com/github/michaelherold/module_builder)
 
 ModuleBuilder gives you the ability to create modules that are customizable for
