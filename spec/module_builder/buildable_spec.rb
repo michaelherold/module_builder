@@ -60,4 +60,30 @@ RSpec.describe ModuleBuilder::Buildable do
 
     expect { NoBuilder.new }.to raise_error(ModuleBuilder::UnspecifiedBuilder)
   end
+
+  it "passes the state onto the builder" do
+    builder_class = Class.new(ModuleBuilder::Builder) do
+      def inclusions
+        [
+          Module.new do
+            define_method :yodel do
+              "yodel lay hee hoo!"
+            end
+          end
+        ]
+      end
+    end
+
+    buildable = Module.new do
+      include ModuleBuilder::Buildable
+
+      builder builder_class
+    end
+
+    expect(builder_class).to receive(:new).
+      with(:example => "value").
+      and_call_original
+
+    buildable.new(:example => "value")
+  end
 end
