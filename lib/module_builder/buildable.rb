@@ -85,7 +85,7 @@ module ModuleBuilder
       def default_builder
         const_get("Builder")
       rescue NameError
-        raise UnspecifiedBuilder, "No builder specified"
+        raise UnspecifiedBuilder
       end
     end
   end
