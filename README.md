@@ -14,7 +14,7 @@ Come see what ModuleBuilder will help you with today!
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'module_builder'
+gem "module_builder"
 ```
 
 And then execute:
