@@ -1,5 +1,14 @@
 module ModuleBuilder
+  # Builds a module based on instance-level state and class-level configuration.
+  #
+  # This class is intended to be subclassed, not used as-is. There are several
+  # methods to override in order to give the builder the behavior you want. You
+  # can also define setup methods that are specified in the {Builder#hooks}
+  # array for arbitrary setup based on the state passed into the builder's
+  # constructor.
   class Builder
+    # The module built by the builder.
+    #
     # @!attribute [r] module
     #   @return [Module] the Module built by the builder
     attr_reader :module
