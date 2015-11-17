@@ -15,5 +15,6 @@ scheme are considered to be bugs.
 - Defined hooks via the `Builder#hooks` extension method.
 - Stateful building via passing state into the Builder constructor and using
   the resulting state in a defined hook.
+- Buildable module to mix into modules that you want to be able to build.
 
 [unreleased]: https://github.com/michaelherold/module_builder
