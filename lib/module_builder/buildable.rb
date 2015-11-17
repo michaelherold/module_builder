@@ -1,4 +1,6 @@
 module ModuleBuilder
+  # Gives a module the ability to be customized via a {ModuleBuilder::Builder}
+  # in a class-like manner via a {::new} method.
   module Buildable
     # Extends the {ClassMethods} module onto any descendent.
     #
@@ -8,6 +10,9 @@ module ModuleBuilder
       descendent.extend(ClassMethods)
     end
 
+    # Gives a module that mixes in Buildable a small DSL for specifying the
+    # class to use when building the module and the ability to easily build a
+    # new copy of the module using a given state.
     module ClassMethods
       # Sets and accesses the builder class for a buildable module.
       #
@@ -37,6 +42,9 @@ module ModuleBuilder
         end
       end
 
+      # Returns a module newly built by the builder class using the given state.
+      #
+      # @param [Hash] state the state to use when configuring the builder.
       # @return [Module]
       def new(**state)
         builder.new(state).module
