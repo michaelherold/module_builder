@@ -1,8 +1,11 @@
 # ModuleBuilder
 
 [![Build Status](https://travis-ci.org/michaelherold/module_builder.svg)][travis]
-[![Code Climate](https://codeclimate.com/github/michaelherold/module_builder/badges/gpa.svg)](https://codeclimate.com/github/michaelherold/module_builder)
+[![Code Climate](https://codeclimate.com/github/michaelherold/module_builder/badges/gpa.svg)][codeclimate]
+[![Inline docs](http://inch-ci.org/github/michaelherold/module_builder.svg?branch=master)][inch]
 
+[codeclimate]: https://codeclimate.com/github/michaelherold/module_builder
+[inch]: http://inch-ci.org/github/michaelherold/module_builder
 [travis]: https://travis-ci.org/michaelherold/module_builder
 
 ModuleBuilder gives you the ability to create modules that are customizable for
