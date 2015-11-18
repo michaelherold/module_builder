@@ -4,7 +4,7 @@ require File.expand_path("../lib/module_builder/version", __FILE__)
 
 Gem::Specification.new do |spec|
   spec.name          = "module_builder"
-  spec.version       = ModuleBuilder::VERSION
+  spec.version       = ModuleBuilder::VERSION.dup
   spec.authors       = ["Michael Herold"]
   spec.email         = ["michael.j.herold@gmail.com"]
 
