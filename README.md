@@ -1,7 +1,9 @@
 # ModuleBuilder
 
-[![Build Status](https://travis-ci.org/michaelherold/module_builder.svg)](https://travis-ci.org/michaelherold/module_builder?branch=master)
+[![Build Status](https://travis-ci.org/michaelherold/module_builder.svg)][travis]
 [![Code Climate](https://codeclimate.com/github/michaelherold/module_builder/badges/gpa.svg)](https://codeclimate.com/github/michaelherold/module_builder)
+
+[travis]: https://travis-ci.org/michaelherold/module_builder
 
 ModuleBuilder gives you the ability to create modules that are customizable for
 different situations. Are you creating a module that has an adapter, but don't
@@ -205,11 +207,14 @@ adhere to the [Contributor Covenant][covenant] code of conduct.
 
 ## Supported Ruby Versions
 
-This library aims to support the following Ruby versions:
+This library aims to support and is [tested against][travis] the following Ruby
+versions:
 
+* Ruby 1.9.3
 * Ruby 2.0
 * Ruby 2.1
 * Ruby 2.2
+* JRuby 1.7 (in Ruby 1.9 mode)
 * JRuby 9.0
 
 If something doesn't work on one of these versions, it's a bug.
