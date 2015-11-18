@@ -59,7 +59,7 @@ module ModuleBuilder
       #
       # @param [Hash] state the state to use when configuring the builder.
       # @return [Module] the newly built module.
-      def new(**state)
+      def new(state = {})
         builder.new(state).module
       end
 
