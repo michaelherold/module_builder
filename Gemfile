@@ -10,7 +10,7 @@ group :development do
   gem "guard-rubocop"
   gem "guard-yard"
   gem "inch"
-  gem "mutant-rspec"
+  gem "mutant-rspec" unless RUBY_VERSION < "2.1"
   gem "rake"
   gem "rubocop", "0.35.1"
   gem "yard", "~> 0.8"
