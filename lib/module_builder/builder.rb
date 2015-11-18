@@ -13,15 +13,19 @@ module ModuleBuilder
     #   @return [Module] the Module built by the builder
     attr_reader :module
 
-    # Creates a new module builder that uses the specified base module
-    # as a foundation for its built module.
+    # Creates a new module builder that uses the specified base module as a
+    # foundation for its built module and sets any other specified key/value
+    # pairs as instance variables on the builder.
     #
     # @example
     #   ModuleBuilder::Builder.new(base: Module.new)
     #
-    # @param [Module] base the module to use as a base on which to build.
-    def initialize(base: Module.new, **state)
-      @module = base
+    # @param [Hash] state the state to use for defined hooks.
+    # @option state [Module] :base (Module.new) the module to use as a base on
+    #   which to build.
+    def initialize(state = {})
+      state = [builder_defaults, defaults, state].reduce(&:merge)
+      @module = state.delete(:base)
 
       state.each_pair do |attr, value|
         instance_variable_set("@#{attr}", value)
@@ -30,6 +34,16 @@ module ModuleBuilder
       add_extended_hook
       add_inclusions
       add_defined_hooks
+    end
+
+    # The defaults for any state values that require them.
+    #
+    # @note This can be overridden in a subclass with any default values for
+    #   state variables that are needed in defined hooks.
+    #
+    # @return [Hash] the default state for defined hooks.
+    def defaults
+      {}
     end
 
     # Lists the modules to be added into the Module#extended hook
@@ -94,6 +108,13 @@ module ModuleBuilder
     # @return [void]
     def add_inclusions
       inclusions.each { |mod| @module.__send__(:include, mod) }
+    end
+
+    # Defines the basic defaults that every builder needs.
+    #
+    # @return [Hash] the defaults that every builder needs.
+    def builder_defaults
+      {:base => Module.new}
     end
 
     # Gives access to the builder's context when dynamically defining

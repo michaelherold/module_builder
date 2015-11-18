@@ -16,5 +16,6 @@ scheme are considered to be bugs.
 - Stateful building via passing state into the Builder constructor and using
   the resulting state in a defined hook.
 - Buildable module to mix into modules that you want to be able to build.
+- Default state via the `Builder#defaults` extension method.
 
 [unreleased]: https://github.com/michaelherold/module_builder

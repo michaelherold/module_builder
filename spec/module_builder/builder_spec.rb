@@ -129,4 +129,39 @@ RSpec.describe ModuleBuilder::Builder do
     expect(persister).not_to respond_to(:persist)
     expect(persister.save).to eq("persisting")
   end
+
+  it "allows for default values in builder state" do
+    builder = Class.new(ModuleBuilder::Builder) do
+      def hooks
+        [:define_persist_method, :define_special_method]
+      end
+
+      def defaults
+        {:persist_method => :save, :special_method => :special}
+      end
+
+      def define_persist_method
+        @module.__send__(:define_method, @persist_method) do
+          "persisting"
+        end
+      end
+
+      def define_special_method
+        @module.__send__(:define_method, @special_method) do
+          "special"
+        end
+      end
+    end
+
+    persisting_class = Class.new do
+      include builder.new(:special_method => :super_special).module
+    end
+
+    persister = persisting_class.new
+    expect(persister).to respond_to(:save)
+    expect(persister).not_to respond_to(:persist)
+    expect(persister.save).to eq("persisting")
+    expect(persister).to respond_to(:super_special)
+    expect(persister.super_special).to eq("special")
+  end
 end
