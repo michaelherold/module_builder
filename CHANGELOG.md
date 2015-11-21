@@ -6,6 +6,12 @@ scheme are considered to be bugs.
 
 [semver]: http://semver.org/spec/v2.0.0.html
 
+## [Unreleased][unreleased]
+
+### Added
+
+- Nothing yet.
+
 ## [0.1.0] - 2015-11-21
 
 ### Added
@@ -21,3 +27,4 @@ scheme are considered to be bugs.
   descendant class or module.
 
 [0.1.0]: https://github.com/michaelherold/module_builder/tree/v0.1.0
+[unreleased]: https://github.com/michaelherold/module_builder/compare/v0.1.0...HEAD
