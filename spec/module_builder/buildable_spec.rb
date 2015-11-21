@@ -86,4 +86,32 @@ RSpec.describe ModuleBuilder::Buildable do
 
     buildable.new(:example => "value")
   end
+
+  it "includes the default version of any built module when bare-included" do
+    builder_class = Class.new(ModuleBuilder::Builder) do
+      def inclusions
+        [
+          Module.new do
+            define_method :yodel do
+              "yodel lay hee hoo!"
+            end
+          end
+        ]
+      end
+    end
+
+    buildable = Module.new do
+      include ModuleBuilder::Buildable
+
+      builder builder_class
+    end
+
+    built_class = Class.new do
+      include buildable
+    end
+
+    object = built_class.new
+    expect(object).to respond_to(:yodel)
+    expect(object.yodel).to eq("yodel lay hee hoo!")
+  end
 end

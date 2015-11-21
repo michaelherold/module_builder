@@ -42,6 +42,27 @@ module ModuleBuilder
         end
       end
 
+      # Includes the default version of the built module when included without
+      # a constructor.
+      #
+      # @example
+      #   module MyBuildableModule
+      #     include ModuleBuilder::Buildable
+      #
+      #     class Builder < ModuleBuilder::Builder
+      #     end
+      #   end
+      #
+      #   class MyUncustomizedClass
+      #     include MyBuildableModule
+      #   end
+      #
+      # @param [Class, Module] descendant the including class or module.
+      # @return [void]
+      def included(descendant)
+        descendant.__send__(:include, new)
+      end
+
       # Builds a module with the configured builder class using the given
       # state.
       #

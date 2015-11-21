@@ -174,6 +174,22 @@ module OtherIncludingModule
 end
 ```
 
+When a `Buildable` module is included without the use of its constructor, the
+default version of the module is included in the descendant class or module.
+
+```ruby
+module BuildableExample
+  include ModuleBuilder::Buildable
+
+  class Builder < ModuleBuilder::Builder
+  end
+end
+
+module IncludingModule
+  include BuildableExample
+end
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run
