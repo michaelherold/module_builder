@@ -6,7 +6,7 @@ scheme are considered to be bugs.
 
 [semver]: http://semver.org/spec/v2.0.0.html
 
-## [Unreleased][unreleased]
+## [0.1.0] - 2015-11-21
 
 ### Added
 
@@ -20,4 +20,4 @@ scheme are considered to be bugs.
 - Including a `Buildable` module includes the default built version in the
   descendant class or module.
 
-[unreleased]: https://github.com/michaelherold/module_builder
+[0.1.0]: https://github.com/michaelherold/module_builder/tree/v0.1.0
