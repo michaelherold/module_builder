@@ -265,6 +265,23 @@ Constraint][pessimistic] with two digits of precision. For example:
 [pessimistic]: http://guides.rubygems.org/patterns/#pessimistic-version-constraint
 [semver]: http://semver.org/spec/v2.0.0.html
 
+## Credits
+
+The original implementation of this library was based on the [Builder][builder]
+within the [virtus] gem by Piotr Solnica, which I used for inspiration. Pieces
+of it live on, but the current product expands on the original.
+
+The idea for the library came from [a conversation][conversation] about the
+best way to configure a module once it is included in a class. [Grégory
+Horion][gregory]'s comment lead me down the path of using `Module.new` as the
+base for this library.
+
+[builder]: https://github.com/solnic/virtus/blob/3248a465643b86d7fcb0c16fe6937293adbd1055/lib/virtus/builder.rb
+[conversation]: https://github.com/intridea/hashie/pull/262
+[gregory]: http://gregory.io
+[piotr]: http://solnic.eu
+[virtus]: https://github.com/solnic/virtus
+
 ## License
 
 The gem is available as open source under the terms of the [MIT License][license].
